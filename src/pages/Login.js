@@ -22,6 +22,10 @@ import InputLabel from "@mui/material/InputLabel";
 import { styled } from "@mui/material/styles";
 import LockIcon from "@mui/icons-material/Lock";
 import logo from "../logo.svg";
+import Divider from "@mui/material/Divider";
+
+import Link from "@mui/material/Link";
+import signUpService from "../services/SignUp";
 
 const Label = styled(InputLabel)({
     fontSize: "1.4rem",
@@ -34,7 +38,7 @@ const LoginInput = styled(InputBase)({
         padding: "1rem 1.5rem",
         borderRadius: "4px",
         fontSize: "1.4rem",
-        color: "#BDBDBD",
+        color: "#33333",
     },
 
     "& .MuiInputBase-input:focus": {
@@ -44,21 +48,35 @@ const LoginInput = styled(InputBase)({
 
 function Login() {
     const dispatch = useDispatch();
-    const data = useSelector((state) => state);
+    const user = useSelector((state) => state.user);
     const navigate = useNavigate();
 
     const [error, setError] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState("");
+    const [signup, setSignup] = useState(false);
+
+    React.useEffect(() => {
+        if (user.email === "") return;
+
+        navigate("../");
+    }, [user]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (signup) {
+            const response = await signUpService({ email, password, name });
+            dispatch(login({ email, password }));
+            return;
+        }
 
         dispatch(login({ email, password }));
     };
 
     return (
-        <Container maxWidth="xs" sx={{ marginTop: "30vh" }}>
+        <Container maxWidth="xs" sx={{ marginTop: "20vh" }}>
             <Box sx={{ display: "grid", gap: "2rem" }}>
                 <Box sx={{ display: "grid", justifyContent: "center" }}>
                     <Box
@@ -86,6 +104,16 @@ function Login() {
                             fullWidth
                             onChange={({ target }) => setEmail(target.value)}
                         />
+                        {signup ? (
+                            <LoginInput
+                                type="text"
+                                placeholder="Name"
+                                fullWidth
+                                onChange={({ target }) => setName(target.value)}
+                            />
+                        ) : (
+                            ""
+                        )}
                         <LoginInput
                             type="password"
                             placeholder="Password"
@@ -99,9 +127,46 @@ function Login() {
                         fullWidth
                         type="submit"
                     >
-                        Send
+                        {signup ? "Sign up" : "Login"}
                     </Button>
                 </Box>
+                <Divider />
+                {signup ? (
+                    <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{ justifySelf: "center", mr: 2 }}
+                    >
+                        Have an account?
+                        <Link
+                            href="#"
+                            underline="none"
+                            sx={{ ml: 1 }}
+                            onClick={() => {
+                                setName("");
+                                setSignup(false);
+                            }}
+                        >
+                            Login
+                        </Link>
+                    </Typography>
+                ) : (
+                    <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{ justifySelf: "center", mr: 2 }}
+                    >
+                        Don't have an account?
+                        <Link
+                            href="#"
+                            underline="none"
+                            sx={{ ml: 1 }}
+                            onClick={() => setSignup(true)}
+                        >
+                            Sign up
+                        </Link>
+                    </Typography>
+                )}
             </Box>
         </Container>
     );

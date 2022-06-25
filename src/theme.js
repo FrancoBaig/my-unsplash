@@ -25,6 +25,6 @@ export const theme = createTheme({
         fontFamily: "Noto sans",
     },
     shape: {
-        borderRadius: "8px",
+        borderRadius: 8,
     },
 });

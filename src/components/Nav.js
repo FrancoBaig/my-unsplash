@@ -120,7 +120,7 @@ function Nav() {
                             />
                         </Search>
                     </Box>
-                    {user.hasOwnProperty("token") ? (
+                    {user.email !== "" ? (
                         <Box sx={{ display: "flex", gap: 2 }}>
                             <Button
                                 variant="contained"
@@ -141,7 +141,7 @@ function Nav() {
                                         sx={{ p: 0 }}
                                     >
                                         <Avatar
-                                            alt="Remy Sharp"
+                                            alt={user.name.toUpperCase()}
                                             src="/static/images/avatar/2.jpg"
                                         />
                                     </IconButton>
