@@ -10,4 +10,16 @@ const getAll = async () => {
     }
 };
 
-export default getAll;
+const postPhoto = async (data, user) => {
+    try {
+        const config = {
+            headers: { Authorization: user.token },
+        };
+        const response = await axios.post(baseUrl, data, config);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export { getAll, postPhoto };

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -14,6 +15,8 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 
 import { styled } from "@mui/material/styles";
+
+import { addPhoto } from "../reducers/imagesReducer";
 
 const Label = styled(InputLabel)({
     fontSize: "1.4rem",
@@ -36,11 +39,30 @@ const CssInput = styled(InputBase)({
 });
 
 function ImageForm({ open, setOpen }) {
+    const dispatch = useDispatch();
+    const user = useSelector((store) => store.user);
+    const [description, setDescription] = useState("");
+    const [url, setUrl] = useState("");
+
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const newImage = {
+            description: description,
+            link: url,
+            date: Date.now(),
+        };
+        console.log(newImage);
+        console.log(user);
+
+        dispatch(addPhoto(newImage, user));
         setOpen(false);
     };
 
@@ -65,6 +87,9 @@ function ImageForm({ open, setOpen }) {
                         <CssInput
                             placeholder="Suspendisse elit massa"
                             fullWidth
+                            onChange={({ target }) =>
+                                setDescription(target.value)
+                            }
                         />
                     </Box>
                     <Box sx={{ display: "grid", gap: "1rem", mb: 2 }}>
@@ -72,6 +97,7 @@ function ImageForm({ open, setOpen }) {
                         <CssInput
                             placeholder="https://images.unsplash.com/photo-1584395630827-860eee694d7b?ixlib=r..."
                             fullWidth
+                            onChange={({ target }) => setUrl(target.value)}
                         />
                     </Box>
                     <DialogActions>
@@ -83,7 +109,11 @@ function ImageForm({ open, setOpen }) {
                         >
                             Cancel
                         </Button>
-                        <Button onClick={handleClose} variant="contained">
+                        <Button
+                            onClick={(e) => handleSubmit(e)}
+                            type="submit"
+                            variant="contained"
+                        >
                             Submit
                         </Button>
                     </DialogActions>
