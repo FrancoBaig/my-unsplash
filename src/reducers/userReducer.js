@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import loginService from "../services/Login";
-import { updateLikes } from "../services/Data";
+import { updateLikes, getLikedPhotos } from "../services/Data";
 
 const initialState = {
     email: "",
@@ -15,15 +15,15 @@ const userSlice = createSlice({
     reducers: {
         loginUser(state, action) {
             const payload = action.payload;
-            console.log(payload);
-            
 
             return {
                 email: payload.email,
                 name: payload.name,
                 token: payload.token,
                 likes: [...payload.likes],
-                id: payload.id
+                id: payload.id,
+                userImages: payload.userImages,
+                liked: [],
             }
 
         },
@@ -35,6 +35,14 @@ const userSlice = createSlice({
                 likes: [...likesArray]
             }
         },
+        setLiked(state, action){
+            const payload = action.payload
+
+            return {
+                ...state,
+                liked: [...payload]
+            }
+        }
     },
 });
 
@@ -49,15 +57,27 @@ export const login = (credentials) => {
 
 export const handleLike = (userId, likes, item) => {
 
-    const newArray = likes.includes(item) ? likes.filter(el => el !== item) : [...likes, item];
-
+    const imageId = item;
+    const newArray = likes.includes(imageId) ? likes.filter(el => el !== imageId) : [...likes, item];
+    
     return async dispatch => {
-        const array = await updateLikes(userId, newArray);
+        const array = await updateLikes(userId, newArray, imageId);
         dispatch(like(array));
     };
 
 };
 
+export const handleLiked = (userId) => {
+    if(!userId) return;
+    console.log("prendido,", userId);
+    
+    return async dispatch => {
+        const array = await getLikedPhotos(userId);
+        dispatch(setLiked(array));
+    };
 
-export const { loginUser, like } = userSlice.actions;
+};
+
+
+export const { loginUser, like, setLiked } = userSlice.actions;
 export default userSlice.reducer;

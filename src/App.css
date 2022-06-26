@@ -12,3 +12,9 @@
     opacity: 1;
     transition: all 300ms;
 }
+
+.MuiTabs-flexContainer {
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2rem;
+}

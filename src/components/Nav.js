@@ -75,15 +75,13 @@ const AddButton = styled(Button)(({ theme }) => ({
     backgroundColor: "red",
 }));
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Images", "Logout"];
-
 function Nav() {
     const user = useSelector((store) => store.user);
 
     const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
+    const [search, setSearch] = useState("");
     const [open, setOpen] = useState(false);
 
     const handleOpenNavMenu = (event) => {
@@ -117,6 +115,9 @@ function Nav() {
                             <StyledInputBase
                                 placeholder="Search…"
                                 inputProps={{ "aria-label": "search" }}
+                                onChange={({ target }) =>
+                                    setSearch(target.value)
+                                }
                             />
                         </Search>
                     </Box>
@@ -162,16 +163,21 @@ function Nav() {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
-                                    {settings.map((setting) => (
-                                        <MenuItem
-                                            key={setting}
-                                            onClick={handleCloseUserMenu}
-                                        >
-                                            <Typography textAlign="center">
-                                                {setting}
-                                            </Typography>
-                                        </MenuItem>
-                                    ))}
+                                    <MenuItem
+                                        onClick={() => {
+                                            navigate("../profile");
+                                            handleCloseUserMenu();
+                                        }}
+                                    >
+                                        <Typography textAlign="center">
+                                            Images
+                                        </Typography>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center">
+                                            Logout
+                                        </Typography>
+                                    </MenuItem>
                                 </Menu>
                             </Box>
                         </Box>

@@ -1,5 +1,6 @@
 import axios from "axios";
 const baseUrl = "http://localhost:3001/api/images";
+const likedUrl = "http://localhost:3001/api/images/liked/";
 const update = "http://localhost:3001/api/user/like";
 
 const getAll = async () => {
@@ -23,11 +24,12 @@ const postPhoto = async (data, user) => {
     }
 };
 
-const updateLikes = async (userId, likes) => {
+const updateLikes = async (userId, likes, ImageId) => {
     try {
         const body = {
             id: userId,
             likes: likes,
+            imageId: ImageId,
         };
         const response = await axios.put(update, body);
         return response.data;
@@ -36,4 +38,14 @@ const updateLikes = async (userId, likes) => {
     }
 };
 
-export { getAll, postPhoto, updateLikes };
+const getLikedPhotos = async (userId) => {
+    try {
+        const url = baseUrl + `/liked/${userId}`;
+        const liked = await axios.get(url);
+        return liked.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export { getAll, postPhoto, updateLikes, getLikedPhotos };

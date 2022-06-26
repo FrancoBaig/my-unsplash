@@ -12,7 +12,7 @@ const imagesSlice = createSlice({
         },
         setNewImage(state, action){
             return [action.payload, ...state]
-        }
+        },
     },
 });
 

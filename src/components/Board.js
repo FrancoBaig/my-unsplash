@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Container";
 import { useSelector, useDispatch } from "react-redux";
 import ImageList from "@mui/material/ImageList";
@@ -9,7 +9,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { like } from "../reducers/userReducer.js";
 import { useNavigate } from "react-router";
-import { handleLike } from "../reducers/userReducer";
+import { handleLike, handleLiked } from "../reducers/userReducer";
 
 function Board() {
     const navigate = useNavigate();
@@ -17,6 +17,11 @@ function Board() {
     const user = useSelector((state) => state.user);
     const images = useSelector((state) => state.Images);
     const likes = useSelector((state) => state.user.likes);
+
+    useEffect(() => {
+        if (user.token === "") return;
+        dispatch(handleLiked(user.id));
+    }, [likes]);
 
     const handleUpdateLike = (id) => {
         if (user.token === "") {
