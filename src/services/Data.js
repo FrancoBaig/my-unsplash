@@ -1,5 +1,6 @@
 import axios from "axios";
 const baseUrl = "http://localhost:3001/api/images";
+const update = "http://localhost:3001/api/user/like";
 
 const getAll = async () => {
     try {
@@ -22,4 +23,17 @@ const postPhoto = async (data, user) => {
     }
 };
 
-export { getAll, postPhoto };
+const updateLikes = async (userId, likes) => {
+    try {
+        const body = {
+            id: userId,
+            likes: likes,
+        };
+        const response = await axios.put(update, body);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export { getAll, postPhoto, updateLikes };

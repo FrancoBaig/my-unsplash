@@ -1,8 +1,14 @@
 .MuiImageListItem-img {
-    border-radius: 16px;
+    border-radius: 12px;
     object-fit: cover;
 }
 
 .MuiImageListItem-root {
     width: 100%;
+    transition: all 1100ms;
+}
+
+.MuiImageListItem-root:hover >  .MuiImageListItemBar-root{
+    opacity: 1;
+    transition: all 300ms;
 }
