@@ -24,6 +24,7 @@ import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
 import { initializeImages } from "../reducers/imagesReducer";
 import Board from "../components/Board";
+import { filterChange } from "../reducers/filterReducer";
 
 import ImageForm from "./ImageForm";
 
@@ -77,7 +78,7 @@ const AddButton = styled(Button)(({ theme }) => ({
 
 function Nav() {
     const user = useSelector((store) => store.user);
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -116,7 +117,7 @@ function Nav() {
                                 placeholder="Search…"
                                 inputProps={{ "aria-label": "search" }}
                                 onChange={({ target }) =>
-                                    setSearch(target.value)
+                                    dispatch(filterChange(target.value))
                                 }
                             />
                         </Search>

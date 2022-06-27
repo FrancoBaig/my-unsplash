@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userReducer";
 import imagesReducer from "./imagesReducer";
-import { subscribe } from "react-redux"
+import filterReducer from "./filterReducer";
+import { subscribe } from "react-redux";
 
 const store = configureStore({
     reducer: {
         user: userReducer,
-        Images: imagesReducer
+        images: imagesReducer,
+        filter: filterReducer
     },
 });
 

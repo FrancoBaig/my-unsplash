@@ -15,7 +15,16 @@ function Board() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
-    const images = useSelector((state) => state.Images);
+    const filter = useSelector((state) => state.filter.toUpperCase());
+    const images = useSelector((state) => {
+        if (filter === "") {
+            return state.images;
+        } else {
+            return state.images.filter((el) =>
+                el.description.toUpperCase().includes(filter)
+            );
+        }
+    });
     const likes = useSelector((state) => state.user.likes);
 
     const handleUpdateLike = (id) => {
