@@ -14,7 +14,7 @@ const imagesSlice = createSlice({
         setNewImage(state, action){
             return [action.payload, ...state]
         }
-        
+
     },
 });
 
@@ -35,5 +35,5 @@ export const addPhoto = (data, user) => {
 
 
 
-export const { setImages, setNewImage, deleteImage } = imagesSlice.actions;
+export const { setImages, setNewImage, deleteImage, setLike } = imagesSlice.actions;
 export default imagesSlice.reducer;

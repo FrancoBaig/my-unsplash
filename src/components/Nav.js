@@ -108,7 +108,12 @@ function Nav() {
                     sx={{ display: "flex", justifyContent: "space-between" }}
                 >
                     <Box sx={{ display: "flex", gap: "2rem" }}>
-                        <img src={logo} alt="page-icon" />
+                        <img
+                            src={logo}
+                            alt="page-icon"
+                            onClick={() => navigate("../")}
+                            style={{ cursor: "pointer" }}
+                        />
                         <Search>
                             <SearchIconWrapper>
                                 <SearchIcon />

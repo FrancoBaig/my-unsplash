@@ -30,6 +30,8 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
+import Nav from "../components/Nav";
+
 const Card = styled(Paper)(({ theme }) => ({
     marginTop: "2rem",
     padding: "1rem",
@@ -102,10 +104,11 @@ function Profile() {
     };
 
     return (
-        <>
+        <Container maxWidth="md">
+            <Nav />
             <div
                 style={{
-                    marginTop: "2rem",
+                    marginTop: "1rem",
                     display: "flex",
                     alignItems: "center",
                     flexDirection: "column",
@@ -297,7 +300,7 @@ function Profile() {
                     ))}
                 </ImageList>
             </Box>
-        </>
+        </Container>
     );
 }
 
