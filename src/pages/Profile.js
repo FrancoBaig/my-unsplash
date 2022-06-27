@@ -16,9 +16,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import { useNavigate } from "react-router";
-import { handleLike, handleLiked } from "../reducers/userReducer";
-
-import { removePhoto } from "../reducers/imagesReducer";
+import { handleLike, removePhoto } from "../reducers/userReducer";
 
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
@@ -67,12 +65,15 @@ function Profile() {
         }
     });
 
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
     const likes = useSelector((state) => state.user.likes);
     const data = useSelector((state) => state);
     const numberPublications = user.userImages.length;
-    const numberLikes = 120; //cambiar
-    const [anchorElNav, setAnchorElNav] = useState(null);
-    const [anchorElUser, setAnchorElUser] = useState(null);
+    const numberLikes = user.userImages.reduce(
+        (prev, curr) => (prev += curr.likes),
+        0
+    );
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -96,7 +97,8 @@ function Profile() {
     };
 
     const handleRemove = (imageId) => {
-        removePhoto(imageId);
+        console.log("remove", imageId);
+        dispatch(removePhoto(imageId));
     };
 
     return (

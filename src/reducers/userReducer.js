@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import loginService from "../services/Login";
-import { updateLikes, getLikedPhotos } from "../services/Data";
+import { updateLikes, getLikedPhotos, deletePhoto } from "../services/Data";
 
 const initialState = {
     email: "",
@@ -51,6 +51,16 @@ const userSlice = createSlice({
                 ...state,
                 userImages: [...state.userImages, image]
             }
+        },
+        deleteImage(state, action){
+            const imageId = action.payload
+            const filtered = state.userImages.filter(el => el.id !== imageId)
+            console.log("filted", filtered);
+            
+            return {
+                ...state,
+                userImages: filtered,
+            }
         }
     },
 });
@@ -80,7 +90,7 @@ export const handleLike = (userId, likes, item) => {
 
 export const handleLiked = (userId) => {
     if(!userId) return;
-    console.log("handleLiked activo ");
+
     
     return async dispatch => {
         const array = await getLikedPhotos(userId);
@@ -89,6 +99,15 @@ export const handleLiked = (userId) => {
 
 };
 
+export const removePhoto = (imageId) =>{
 
-export const { loginUser, like, setLiked, addUserImage } = userSlice.actions;
+    
+    return async dispatch => {
+        await deletePhoto(imageId)
+        dispatch(deleteImage(imageId))
+    }
+}
+
+
+export const { loginUser, like, setLiked, addUserImage, deleteImage } = userSlice.actions;
 export default userSlice.reducer;
