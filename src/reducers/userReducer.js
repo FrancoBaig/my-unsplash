@@ -36,15 +36,11 @@ const userSlice = createSlice({
             }
         },
         setLiked(state, action){
-            const payload = action.payload
-            console.log("Viejo estado de liked", state.liked);
-            
+            const payload = action.payload 
             const newState ={
                 ...state,
                 liked: [...payload]
             }
-            console.log("Nuevo estado de liked", newState);
-            
 
             return newState;
         },
@@ -65,6 +61,7 @@ export const login = (credentials) => {
 
         const user = await loginService(credentials);
         dispatch(loginUser(user));
+        dispatch(handleLiked(user.id))
     };
 };
 
@@ -83,12 +80,10 @@ export const handleLike = (userId, likes, item) => {
 
 export const handleLiked = (userId) => {
     if(!userId) return;
-    console.log("handleLiked on");
+    console.log("handleLiked activo ");
     
     return async dispatch => {
         const array = await getLikedPhotos(userId);
-        console.log("array from liked", array);
-        
         dispatch(setLiked(array));
     };
 

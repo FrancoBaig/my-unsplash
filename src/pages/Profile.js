@@ -61,11 +61,6 @@ function Profile() {
     const [value, setValue] = useState(0);
     const images = useSelector((state) => {
         if (value === 0) {
-            console.log(
-                "deberían ser las que subió el user",
-                state.user.userImages
-            );
-
             return state.user.userImages;
         } else {
             return state.user.liked;
