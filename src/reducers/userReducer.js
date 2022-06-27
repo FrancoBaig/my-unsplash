@@ -23,7 +23,7 @@ const userSlice = createSlice({
                 likes: [...payload.likes],
                 id: payload.id,
                 userImages: payload.userImages,
-                liked: [],
+                liked: [...payload.likes],
             }
 
         },
@@ -63,6 +63,7 @@ export const handleLike = (userId, likes, item) => {
     return async dispatch => {
         const array = await updateLikes(userId, newArray, imageId);
         dispatch(like(array));
+        dispatch(liked())
     };
 
 };

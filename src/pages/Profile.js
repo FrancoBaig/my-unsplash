@@ -18,11 +18,19 @@ import PersonPinIcon from "@mui/icons-material/PersonPin";
 import { useNavigate } from "react-router";
 import { handleLike, handleLiked } from "../reducers/userReducer";
 
+import { removePhoto } from "../reducers/imagesReducer";
+
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-import ImageListComponent from "../components/ImageList";
+import DeleteIcon from "@mui/icons-material/Delete";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+import Tooltip from "@mui/material/Tooltip";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 const Card = styled(Paper)(({ theme }) => ({
     marginTop: "2rem",
@@ -63,6 +71,8 @@ function Profile() {
     const data = useSelector((state) => state);
     const numberPublications = 4; //cambiar
     const numberLikes = 120; //cambiar
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -75,6 +85,18 @@ function Profile() {
         }
 
         dispatch(handleLike(user.id, likes, id));
+    };
+
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
+    const handleRemove = (imageId) => {
+        removePhoto(imageId);
     };
 
     return (
@@ -197,6 +219,74 @@ function Profile() {
                                         >
                                             {item.likes}
                                         </Typography>
+                                        <Box
+                                            sx={{
+                                                flexGrow: 0,
+                                                position: "absolute",
+                                                right: 5,
+                                                top: 7,
+                                            }}
+                                        >
+                                            <Tooltip title="Open settings">
+                                                <IconButton
+                                                    onClick={handleOpenUserMenu}
+                                                    sx={{
+                                                        p: 0,
+                                                    }}
+                                                >
+                                                    <MoreVertIcon
+                                                        sx={{
+                                                            color: "#FFFFFF",
+                                                            fontSize: "1.8rem",
+                                                        }}
+                                                    />
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Menu
+                                                sx={{
+                                                    mt: "22px",
+                                                }}
+                                                id="menu-appbar"
+                                                anchorEl={anchorElUser}
+                                                anchorOrigin={{
+                                                    vertical: "top",
+                                                    horizontal: "right",
+                                                }}
+                                                keepMounted
+                                                transformOrigin={{
+                                                    vertical: "top",
+                                                    horizontal: "right",
+                                                }}
+                                                open={Boolean(anchorElUser)}
+                                                onClose={handleCloseUserMenu}
+                                            >
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        navigate("../profile");
+                                                        handleCloseUserMenu();
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        textAlign="center"
+                                                        sx={{
+                                                            display: "flex",
+                                                            alignItems:
+                                                                "center",
+                                                            gap: ".3rem",
+                                                            fontSize: "1.2rem",
+                                                        }}
+                                                        onClick={() => {
+                                                            handleRemove(
+                                                                item.id
+                                                            );
+                                                        }}
+                                                    >
+                                                        <DeleteIcon />
+                                                        Delete
+                                                    </Typography>
+                                                </MenuItem>
+                                            </Menu>
+                                        </Box>
                                     </Box>
                                 }
                                 actionPosition="left"

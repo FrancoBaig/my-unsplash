@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {getAll, postPhoto} from "../services/Data";
+import {getAll, postPhoto, deletePhoto} from "../services/Data";
 
 const initialState = [];
 
@@ -13,6 +13,10 @@ const imagesSlice = createSlice({
         setNewImage(state, action){
             return [action.payload, ...state]
         },
+        deleteImage(state, action){
+            const imageId = action.payload
+            return state.filter(el => el.id !== imageId)
+        }
     },
 });
 
@@ -31,5 +35,12 @@ export const addPhoto = (data, user) => {
     }
 }
 
-export const { setImages, setNewImage } = imagesSlice.actions;
+export const removePhoto = (imageId) =>{
+    return async dispatch => {
+        await deletePhoto(imageId)
+        dispatch(deleteImage(imageId))
+    }
+}
+
+export const { setImages, setNewImage, deleteImage } = imagesSlice.actions;
 export default imagesSlice.reducer;

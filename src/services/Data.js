@@ -48,4 +48,13 @@ const getLikedPhotos = async (userId) => {
     }
 };
 
-export { getAll, postPhoto, updateLikes, getLikedPhotos };
+const deletePhoto = async (imageId) => {
+    try {
+        const url = baseUrl + `/${imageId}`;
+        await axios.delete(url);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export { getAll, postPhoto, updateLikes, getLikedPhotos, deletePhoto };

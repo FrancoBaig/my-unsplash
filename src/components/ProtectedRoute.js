@@ -5,9 +5,11 @@ import { useSelector } from "react-redux";
 function ProtectedRoute({ children }) {
     const user = useSelector((store) => store.user);
 
-    if (user.mail === undefined) {
+    if (user.email === undefined) {
         return <Navigate to="/" replace />;
     }
+    console.log("pasó");
+
     return children;
 }
 
