@@ -18,11 +18,6 @@ function Board() {
     const images = useSelector((state) => state.Images);
     const likes = useSelector((state) => state.user.likes);
 
-    useEffect(() => {
-        if (user.token === "") return;
-        dispatch(handleLiked(user.id));
-    }, [likes]);
-
     const handleUpdateLike = (id) => {
         if (user.token === "") {
             return navigate("../login");

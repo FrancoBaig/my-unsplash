@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {getAll, postPhoto, deletePhoto} from "../services/Data";
+import {addUserImage} from "./userReducer";
 
 const initialState = [];
 
@@ -29,9 +30,9 @@ export const initializeImages = () => {
 
 export const addPhoto = (data, user) => {
     return async dispatch => {
-        const response = await postPhoto(data, user)
-        dispatch(setNewImage(response))
-        
+        const response = await postPhoto(data, user);
+        dispatch(setNewImage(response));
+        dispatch(addUserImage(response));
     }
 }
 

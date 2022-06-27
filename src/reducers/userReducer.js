@@ -37,10 +37,23 @@ const userSlice = createSlice({
         },
         setLiked(state, action){
             const payload = action.payload
+            console.log("Viejo estado de liked", state.liked);
+            
+            const newState ={
+                ...state,
+                liked: [...payload]
+            }
+            console.log("Nuevo estado de liked", newState);
+            
+
+            return newState;
+        },
+        addUserImage(state, action){
+            const image = action.payload;
 
             return {
                 ...state,
-                liked: [...payload]
+                userImages: [...state.userImages, image]
             }
         }
     },
@@ -63,22 +76,24 @@ export const handleLike = (userId, likes, item) => {
     return async dispatch => {
         const array = await updateLikes(userId, newArray, imageId);
         dispatch(like(array));
-        dispatch(liked())
+        dispatch(handleLiked(userId))
     };
 
 };
 
 export const handleLiked = (userId) => {
     if(!userId) return;
-    console.log("prendido,", userId);
+    console.log("handleLiked on");
     
     return async dispatch => {
         const array = await getLikedPhotos(userId);
+        console.log("array from liked", array);
+        
         dispatch(setLiked(array));
     };
 
 };
 
 
-export const { loginUser, like, setLiked } = userSlice.actions;
+export const { loginUser, like, setLiked, addUserImage } = userSlice.actions;
 export default userSlice.reducer;

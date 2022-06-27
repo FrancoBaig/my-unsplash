@@ -61,6 +61,11 @@ function Profile() {
     const [value, setValue] = useState(0);
     const images = useSelector((state) => {
         if (value === 0) {
+            console.log(
+                "deberían ser las que subió el user",
+                state.user.userImages
+            );
+
             return state.user.userImages;
         } else {
             return state.user.liked;
@@ -69,7 +74,7 @@ function Profile() {
 
     const likes = useSelector((state) => state.user.likes);
     const data = useSelector((state) => state);
-    const numberPublications = 4; //cambiar
+    const numberPublications = user.userImages.length;
     const numberLikes = 120; //cambiar
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
