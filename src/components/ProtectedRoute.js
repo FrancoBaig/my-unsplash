@@ -8,7 +8,6 @@ function ProtectedRoute({ children }) {
     if (user.email === undefined || user.email === "") {
         return <Navigate to="/" replace />;
     }
-    console.log(user);
 
     return children;
 }

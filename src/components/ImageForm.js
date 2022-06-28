@@ -59,8 +59,6 @@ function ImageForm({ open, setOpen }) {
             link: url,
             date: Date.now(),
         };
-        console.log(newImage);
-        console.log(user);
 
         dispatch(addPhoto(newImage, user));
         setOpen(false);

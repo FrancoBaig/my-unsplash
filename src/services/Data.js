@@ -1,7 +1,6 @@
 import axios from "axios";
-const baseUrl = "http://localhost:3001/api/images";
-const likedUrl = "http://localhost:3001/api/images/liked/";
-const update = "http://localhost:3001/api/user/like";
+const baseUrl = "https://unsplashdb.herokuapp.com/api/images";
+const update = "https://unsplashdb.herokuapp.com/api/user/like";
 
 const getAll = async () => {
     try {

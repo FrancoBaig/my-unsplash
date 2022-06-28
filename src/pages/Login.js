@@ -1,36 +1,20 @@
 import React, { useState, useEffect } from "react";
-import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import loginService from "../services/Login";
+import logo from "../logo.svg";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../reducers/userReducer";
-import { useNavigate } from "react-router-dom";
-import CircularProgress from "@mui/material/CircularProgress";
-
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import InputBase from "@mui/material/InputBase";
-import InputLabel from "@mui/material/InputLabel";
-
-import { styled } from "@mui/material/styles";
-import LockIcon from "@mui/icons-material/Lock";
-import logo from "../logo.svg";
-import Divider from "@mui/material/Divider";
-
-import Link from "@mui/material/Link";
 import signUpService from "../services/SignUp";
 
-const Label = styled(InputLabel)({
-    fontSize: "1.4rem",
-    color: "4F4F4F",
-});
+import FormHelperText from "@mui/material/FormHelperText";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import InputBase from "@mui/material/InputBase";
+import LockIcon from "@mui/icons-material/Lock";
+import { styled } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
+import Box from "@mui/material/Box";
 
 const LoginInput = styled(InputBase)({
     "& .MuiInputBase-input": {
@@ -51,28 +35,35 @@ function Login() {
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
 
-    const [error, setError] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [signup, setSignup] = useState(false);
+    const [helperText, setHelperText] = useState("");
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (user.email === "") return;
 
         navigate("../");
-    }, [user]);
+    }, [user, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (signup) {
-            const response = await signUpService({ email, password, name });
-            dispatch(login({ email, password }));
-            return;
+            try {
+                await signUpService({ email, password, name });
+                dispatch(login({ email, password }));
+            } catch (error) {
+                setHelperText("ERROR");
+            }
+        } else {
+            try {
+                dispatch(login({ email, password }));
+            } catch (error) {
+                console.log(error);
+            }
         }
-
-        dispatch(login({ email, password }));
     };
 
     return (
@@ -103,6 +94,7 @@ function Login() {
                             placeholder="Email address"
                             fullWidth
                             onChange={({ target }) => setEmail(target.value)}
+                            required
                         />
                         {signup ? (
                             <LoginInput
@@ -110,6 +102,7 @@ function Login() {
                                 placeholder="Name"
                                 fullWidth
                                 onChange={({ target }) => setName(target.value)}
+                                required
                             />
                         ) : (
                             ""
@@ -119,7 +112,11 @@ function Login() {
                             placeholder="Password"
                             fullWidth
                             onChange={({ target }) => setPassword(target.value)}
+                            required
                         />
+                        <FormHelperText sx={{ fontSize: 24 }}>
+                            {helperText}
+                        </FormHelperText>
                     </Box>
                     <Button
                         variant="contained"

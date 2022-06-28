@@ -55,8 +55,7 @@ const userSlice = createSlice({
         deleteImage(state, action){
             const imageId = action.payload
             const filtered = state.userImages.filter(el => el.id !== imageId)
-            console.log("filted", filtered);
-            
+
             return {
                 ...state,
                 userImages: filtered,
@@ -66,9 +65,7 @@ const userSlice = createSlice({
 });
 
 export const login = (credentials) => {
-
     return async dispatch => {
-
         const user = await loginService(credentials);
         dispatch(loginUser(user));
         dispatch(handleLiked(user.id))
@@ -76,10 +73,9 @@ export const login = (credentials) => {
 };
 
 export const handleLike = (userId, likes, item) => {
-
     const imageId = item;
     const newArray = likes.includes(imageId) ? likes.filter(el => el !== imageId) : [...likes, item];
-    
+     
     return async dispatch => {
         const array = await updateLikes(userId, newArray, imageId);
         dispatch(like(array));
@@ -89,9 +85,7 @@ export const handleLike = (userId, likes, item) => {
 };
 
 export const handleLiked = (userId) => {
-    if(!userId) return;
-
-    
+    if(!userId) return; 
     return async dispatch => {
         const array = await getLikedPhotos(userId);
         dispatch(setLiked(array));
@@ -100,8 +94,6 @@ export const handleLiked = (userId) => {
 };
 
 export const removePhoto = (imageId) =>{
-
-    
     return async dispatch => {
         await deletePhoto(imageId)
         dispatch(deleteImage(imageId))

@@ -1,36 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router";
+import { removePhoto } from "../reducers/userReducer";
 
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Nav from "../components/Nav";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
+import Paper from "@mui/material/Paper";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import CollectionsIcon from "@mui/icons-material/Collections";
-import PersonPinIcon from "@mui/icons-material/PersonPin";
-import { useNavigate } from "react-router";
-import { handleLike, removePhoto } from "../reducers/userReducer";
-
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-
+import CollectionsIcon from "@mui/icons-material/Collections";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import Tooltip from "@mui/material/Tooltip";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-
-import Nav from "../components/Nav";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Card = styled(Paper)(({ theme }) => ({
@@ -68,9 +60,7 @@ function Profile() {
         }
     });
 
-    const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const likes = useSelector((state) => state.user.likes);
     const data = useSelector((state) => state);
     const numberPublications = user.userImages.length;
     const numberLikes = user.userImages.reduce(
@@ -81,15 +71,6 @@ function Profile() {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        console.log(value);
-    };
-
-    const handleUpdateLike = (id) => {
-        if (user.token === "") {
-            return navigate("../login");
-        }
-
-        dispatch(handleLike(user.id, likes, id));
     };
 
     const handleOpenUserMenu = (event) => {
@@ -101,7 +82,6 @@ function Profile() {
     };
 
     const handleRemove = (imageId) => {
-        console.log("remove", imageId);
         dispatch(removePhoto(imageId));
     };
 

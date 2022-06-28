@@ -1,38 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
-import Login from "../pages/Login";
-import Home from "../pages/Home";
+import { filterChange } from "../reducers/filterReducer";
+import ImageForm from "./ImageForm";
+import logo from "../logo.svg";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import SvgIcon from "@mui/material/SvgIcon";
-import logo from "../logo.svg";
-
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
-import { initializeImages } from "../reducers/imagesReducer";
-import Board from "../components/Board";
-import { filterChange } from "../reducers/filterReducer";
-
-import ImageForm from "./ImageForm";
-
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -77,39 +64,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const AddButton = styled(Button)(({ theme }) => ({
-    fontSize: 16,
-    backgroundColor: "red",
-}));
-
 function Nav() {
     const user = useSelector((store) => store.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const [search, setSearch] = useState("");
     const [open, setOpen] = useState(false);
-    const matches = useMediaQuery("(min-width:600px");
 
     const location = useLocation();
     const isProfile = location.pathname === "/profile" ? true : false;
-
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
-
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
     return (
         <>
             <Container sx={{ mt: 1 }}>
@@ -196,7 +168,11 @@ function Nav() {
                                                 Images
                                             </Typography>
                                         </MenuItem>
-                                        <MenuItem onClick={handleCloseUserMenu}>
+                                        <MenuItem
+                                            onClick={() => {
+                                                handleCloseUserMenu();
+                                            }}
+                                        >
                                             <Typography textAlign="center">
                                                 Logout
                                             </Typography>
