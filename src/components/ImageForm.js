@@ -4,18 +4,12 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
-
 import InputBase from "@mui/material/InputBase";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-
 import { styled } from "@mui/material/styles";
-
 import { addPhoto } from "../reducers/imagesReducer";
 
 const Label = styled(InputLabel)({
@@ -25,7 +19,6 @@ const Label = styled(InputLabel)({
 
 const CssInput = styled(InputBase)({
     "& .MuiInputBase-input": {
-        borderRadius: 4,
         border: "1px solid #4F4F4F",
         padding: "1rem 1.5rem",
         borderRadius: "12px",
@@ -43,10 +36,6 @@ function ImageForm({ open, setOpen }) {
     const user = useSelector((store) => store.user);
     const [description, setDescription] = useState("");
     const [url, setUrl] = useState("");
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
     const handleClose = () => {
         setOpen(false);
