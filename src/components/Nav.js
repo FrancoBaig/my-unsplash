@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
 import Box from "@mui/material/Box";
@@ -27,6 +28,11 @@ import Board from "../components/Board";
 import { filterChange } from "../reducers/filterReducer";
 
 import ImageForm from "./ImageForm";
+
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -84,6 +90,10 @@ function Nav() {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [search, setSearch] = useState("");
     const [open, setOpen] = useState(false);
+    const matches = useMediaQuery("(min-width:600px");
+
+    const location = useLocation();
+    const isProfile = location.pathname === "/profile" ? true : false;
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -114,7 +124,7 @@ function Nav() {
                             onClick={() => navigate("../")}
                             style={{ cursor: "pointer" }}
                         />
-                        <Search>
+                        <Search sx={{ mr: 1 }}>
                             <SearchIconWrapper>
                                 <SearchIcon />
                             </SearchIconWrapper>
@@ -136,56 +146,64 @@ function Nav() {
                                     fontSize: 12,
                                     py: 1,
                                     textTransform: "none",
+                                    display: {
+                                        xs: "none",
+                                        sm: "block",
+                                    },
                                 }}
                                 onClick={() => setOpen(true)}
                             >
                                 Add a photo
                             </Button>
-                            <Box sx={{ flexGrow: 0 }}>
-                                <Tooltip title="Open settings">
-                                    <IconButton
-                                        onClick={handleOpenUserMenu}
-                                        sx={{ p: 0 }}
-                                    >
-                                        <Avatar
-                                            alt={user.name.toUpperCase()}
-                                            src="/static/images/avatar/2.jpg"
-                                        />
-                                    </IconButton>
-                                </Tooltip>
-                                <Menu
-                                    sx={{ mt: "45px" }}
-                                    id="menu-appbar"
-                                    anchorEl={anchorElUser}
-                                    anchorOrigin={{
-                                        vertical: "top",
-                                        horizontal: "right",
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: "top",
-                                        horizontal: "right",
-                                    }}
-                                    open={Boolean(anchorElUser)}
-                                    onClose={handleCloseUserMenu}
-                                >
-                                    <MenuItem
-                                        onClick={() => {
-                                            navigate("../profile");
-                                            handleCloseUserMenu();
+                            {isProfile ? (
+                                ""
+                            ) : (
+                                <Box sx={{ flexGrow: 0 }}>
+                                    <Tooltip title="Open settings">
+                                        <IconButton
+                                            onClick={handleOpenUserMenu}
+                                            sx={{ p: 0 }}
+                                        >
+                                            <Avatar
+                                                alt={user.name.toUpperCase()}
+                                                src="/static/images/avatar/2.jpg"
+                                            />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Menu
+                                        sx={{ mt: "45px" }}
+                                        id="menu-appbar"
+                                        anchorEl={anchorElUser}
+                                        anchorOrigin={{
+                                            vertical: "top",
+                                            horizontal: "right",
                                         }}
+                                        keepMounted
+                                        transformOrigin={{
+                                            vertical: "top",
+                                            horizontal: "right",
+                                        }}
+                                        open={Boolean(anchorElUser)}
+                                        onClose={handleCloseUserMenu}
                                     >
-                                        <Typography textAlign="center">
-                                            Images
-                                        </Typography>
-                                    </MenuItem>
-                                    <MenuItem onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">
-                                            Logout
-                                        </Typography>
-                                    </MenuItem>
-                                </Menu>
-                            </Box>
+                                        <MenuItem
+                                            onClick={() => {
+                                                navigate("../profile");
+                                                handleCloseUserMenu();
+                                            }}
+                                        >
+                                            <Typography textAlign="center">
+                                                Images
+                                            </Typography>
+                                        </MenuItem>
+                                        <MenuItem onClick={handleCloseUserMenu}>
+                                            <Typography textAlign="center">
+                                                Logout
+                                            </Typography>
+                                        </MenuItem>
+                                    </Menu>
+                                </Box>
+                            )}
                         </Box>
                     ) : (
                         <Button
@@ -204,6 +222,28 @@ function Nav() {
                 </Toolbar>
             </Container>
             <ImageForm open={open} setOpen={setOpen} />
+            <Box
+                sx={{
+                    "& > :not(style)": {
+                        position: "fixed",
+                        right: 15,
+                        bottom: 10,
+                    },
+                }}
+            >
+                <Fab
+                    color="primary"
+                    aria-label="add"
+                    sx={{
+                        display: {
+                            sm: "none",
+                        },
+                    }}
+                    onClick={() => setOpen(true)}
+                >
+                    <AddIcon />
+                </Fab>
+            </Box>
         </>
     );
 }

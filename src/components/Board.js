@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Container";
 import { useSelector, useDispatch } from "react-redux";
 import ImageList from "@mui/material/ImageList";
@@ -10,6 +10,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { like } from "../reducers/userReducer.js";
 import { useNavigate } from "react-router";
 import { handleLike, handleLiked } from "../reducers/userReducer";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function Board() {
     const navigate = useNavigate();
@@ -25,6 +26,8 @@ function Board() {
             );
         }
     });
+    const matches = useMediaQuery("(min-width:600px");
+
     const likes = useSelector((state) => state.user.likes);
 
     const handleUpdateLike = (id) => {
@@ -37,7 +40,7 @@ function Board() {
 
     return (
         <Box sx={{ mt: 3 }}>
-            <ImageList variant="masonry" cols={3} gap={20}>
+            <ImageList variant="masonry" cols={matches ? 3 : 2} gap={20}>
                 {images.map((item) => (
                     <ImageListItem key={item.id} sx={{ borderRadius: "12px" }}>
                         <img
@@ -53,8 +56,10 @@ function Board() {
                                     "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
                                     "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
                                 borderRadius: "12px",
-
-                                opacity: 0,
+                                opacity: {
+                                    xs: 1,
+                                    sm: 0,
+                                },
                             }}
                             title={item.title}
                             position="top"

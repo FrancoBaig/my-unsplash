@@ -31,6 +31,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
 import Nav from "../components/Nav";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Card = styled(Paper)(({ theme }) => ({
     marginTop: "2rem",
@@ -76,6 +77,7 @@ function Profile() {
         (prev, curr) => (prev += curr.likes),
         0
     );
+    const matches = useMediaQuery("(min-width:600px");
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -104,7 +106,7 @@ function Profile() {
     };
 
     return (
-        <Container maxWidth="md">
+        <Container maxWidth={matches ? "lg" : "md"}>
             <Nav />
             <div
                 style={{
@@ -165,7 +167,7 @@ function Profile() {
                 </Box>
             </Box>
             <Box sx={{ m: 3 }}>
-                <ImageList cols={3} gap={20}>
+                <ImageList cols={matches ? 3 : 2} gap={20}>
                     {images.map((item) => (
                         <ImageListItem
                             key={item.id}
@@ -197,23 +199,14 @@ function Profile() {
                                         <IconButton
                                             sx={{ color: "white" }}
                                             aria-label={`star ${item.title}`}
-                                            onClick={() => {
-                                                handleUpdateLike(item.id);
-                                            }}
                                         >
-                                            {likes.includes(item.id) ? (
-                                                <FavoriteIcon
-                                                    fontSize="large"
-                                                    sx={{
-                                                        color: "#e93435",
-                                                        fontSize: "18px",
-                                                    }}
-                                                />
-                                            ) : (
-                                                <FavoriteBorderIcon
-                                                    sx={{ fontSize: "18px" }}
-                                                />
-                                            )}
+                                            <FavoriteIcon
+                                                fontSize="large"
+                                                sx={{
+                                                    color: "#e93435",
+                                                    fontSize: "18px",
+                                                }}
+                                            />
                                         </IconButton>
                                         <Typography
                                             sx={{

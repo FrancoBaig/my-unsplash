@@ -105,7 +105,13 @@ function ImageForm({ open, setOpen }) {
                             onClick={handleClose}
                             variant="text"
                             size="medium"
-                            sx={{ color: "#BDBDBD" }}
+                            sx={{
+                                color: "#BDBDBD",
+                                fontSize: {
+                                    xs: "1.4rem",
+                                    sm: "1.7rem",
+                                },
+                            }}
                         >
                             Cancel
                         </Button>
@@ -113,6 +119,12 @@ function ImageForm({ open, setOpen }) {
                             onClick={(e) => handleSubmit(e)}
                             type="submit"
                             variant="contained"
+                            sx={{
+                                fontSize: {
+                                    xs: "1.4rem",
+                                    sm: "1.7rem",
+                                },
+                            }}
                         >
                             Submit
                         </Button>
