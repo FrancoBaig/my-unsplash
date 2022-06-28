@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import loginService from "../services/Login";
+import { loginService } from "../services/Login";
 import { updateLikes, getLikedPhotos, deletePhoto } from "../services/Data";
 
 const initialState = {
