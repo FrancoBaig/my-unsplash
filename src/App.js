@@ -17,7 +17,7 @@ function App() {
     }, [dispatch]);
 
     return (
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
             <Nav />
             <Board />
         </Container>

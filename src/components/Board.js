@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Box from "@mui/material/Container";
 import { useSelector, useDispatch } from "react-redux";
 import ImageList from "@mui/material/ImageList";
@@ -7,9 +7,8 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { like } from "../reducers/userReducer.js";
 import { useNavigate } from "react-router";
-import { handleLike, handleLiked } from "../reducers/userReducer";
+import { handleLike } from "../reducers/userReducer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 function Board() {
@@ -47,8 +46,8 @@ function Board() {
                             src={`${item.link}?w=248&fit=crop&auto=format`}
                             srcSet={`${item.link}?w=248&fit=crop&auto=format&dpr=2 2x`}
                             alt={item.description}
-                            loading="lazy"
                             styles={{ borderRadius: "12px" }}
+                            loading="lazy"
                         />
                         <ImageListItemBar
                             sx={{

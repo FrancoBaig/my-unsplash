@@ -171,6 +171,7 @@ function Nav() {
                                         <MenuItem
                                             onClick={() => {
                                                 handleCloseUserMenu();
+                                                window.location.reload()
                                             }}
                                         >
                                             <Typography textAlign="center">
