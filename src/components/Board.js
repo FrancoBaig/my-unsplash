@@ -43,8 +43,7 @@ function Board() {
                 {images.map((item) => (
                     <ImageListItem key={item.id} sx={{ borderRadius: "12px" }}>
                         <img
-                            src={`${item.link}?w=248&fit=crop&auto=format`}
-                            srcSet={`${item.link}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                            src={`${item.link}?w=248&fit=crop&auto=format&dpr=2 2x`}
                             alt={item.description}
                             styles={{ borderRadius: "12px" }}
                             loading="lazy"
